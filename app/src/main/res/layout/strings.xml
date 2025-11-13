@@ -1,0 +1,13 @@
+<resources>
+    <!-- Add your other existing strings here -->
+
+    <string name="decorative_background">Decorative Background</string>
+    <string name="create_account_title">Create an Account</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="already_have_account">Already have an account? Sign In</string>
+
+    <!-- You may have other strings to add as well -->
+</resources>
