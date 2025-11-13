@@ -1,6 +1,6 @@
     package vn.iotstar.loginactivity;
 
-    import android.content.Intent;
+    import android.content.SharedPreferences;
     import android.os.Bundle;
     import android.view.View;
     import android.widget.EditText;
@@ -29,8 +29,6 @@
             // 3. Xử lý sự kiện click cho nút Đăng ký
             xuLySuKienSignUp();
 
-            // Đoạn code mặc định cho Edge-to-Edge
-            // Bạn cần đặt ID "main" cho ConstraintLayout gốc trong XML để code này hoạt động
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
                 Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                 v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -38,7 +36,6 @@
             });
         }
 
-        // Hàm để gom việc ánh xạ View cho gọn
         private void anhXaViews() {
             edtName = findViewById(R.id.edtName);
             edtEmail = findViewById(R.id.edtEmail);
@@ -51,29 +48,31 @@
             btnSignUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Lấy dữ liệu người dùng nhập
                     String name = edtName.getText().toString().trim();
                     String email = edtEmail.getText().toString().trim();
                     String password = edtPassword.getText().toString().trim();
 
-                    // Kiểm tra dữ liệu (ví dụ đơn giản)
                     if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
                         Toast.makeText(SignUpActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                        return; // Dừng lại nếu thông tin chưa đủ
+                        return;
                     }
 
-                    // Logic đăng ký (ở đây chỉ hiển thị thông báo)
-                    // Trong thực tế, bạn sẽ gửi dữ liệu này lên server
+                    // --- LƯU TÀI KHOẢN VỪA ĐĂNG KÝ ---
+                    // 1. Mở file SharedPreferences (tên file là "USER_ACCOUNT")
+                    SharedPreferences sharedPreferences = getSharedPreferences("USER_ACCOUNT", MODE_PRIVATE);
+                    // 2. Tạo đối tượng để chỉnh sửa file
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    // 3. Lưu email và password vào file
+                    editor.putString("EMAIL", email);
+                    editor.putString("PASSWORD", password);
+                    // 4. Hoàn tất việc lưu trữ
+                    editor.apply();
+                    // ------------------------------------
+
                     Toast.makeText(SignUpActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
 
-                    // Sau khi đăng ký thành công, quay trở lại màn hình đăng nhập
-                    // Cách 1: Đơn giản là đóng màn hình hiện tại
+                    // Đóng màn hình đăng ký để quay lại màn hình đăng nhập
                     finish();
-
-                    // Cách 2: Tạo Intent mới để quay lại (để chắc chắn)
-                    // Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                    // startActivity(intent);
-                    // finish(); // Đóng màn hình SignUp
                 }
             });
         }
